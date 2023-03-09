@@ -1,0 +1,61 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body id="samples">
+
+<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-2">
+    <div class="relative bg-white p-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:rounded-lg">
+        <div class="mx-auto">
+            <div class="divide-y divide-gray-300/50">
+                <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
+                    <h2 class="text-3xl font-bold">Auth0 Universal Login + Spring Boot Example</h2>
+                    <div th:unless="${#authorization.expression('isAuthenticated()')}">
+                        <p>Hello!</p>
+                        <p>If you're viewing this page, then you have successfully configured and started this example
+                            server.</p>
+                        <p>This example shows you how to use the <a href="https://github.com/okta/okta-spring-boot"
+                                                                    class="text-blue-500">Okta Spring Boot
+                            Starter</a> to add the Authorization Code Flow using Auth0 to your application.</p>
+                        <p>When you click the login button below, you will be redirected to the login page on your Auth0
+                            org. After you
+                            authenticate, you will be returned to this application.</p>
+                    </div>
+
+                    <div th:if="${#authorization.expression('isAuthenticated()')}">
+                        <p>Welcome home, <span
+                                th:text="${#authentication.principal.attributes['name']}">Joe Coder</span>!</p>
+                        <p>You have successfully authenticated against your Auth0 org, and have been redirected back to
+                            this application.</p>
+                        <p>Visit the <a th:href="@{/profile}">Profile</a> page in this application to view the
+                            information retrieved with your OAuth Access Token.</p>
+                    </div>
+                </div>
+                <div class="pt-8 text-base font-semibold leading-7">
+                    <form method="get" th:action="@{/oauth2/authorization/okta}"
+                          th:unless="${#authorization.expression('isAuthenticated()')}">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full leading-6"
+                                type="submit">Login
+                        </button>
+                    </form>
+                    <form method="post" th:action="@{/logout}" th:if="${#authorization.expression('isAuthenticated()')}"
+                          class="d-flex" style="margin-block-end: inherit">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full leading-6"
+                                type="submit">Logout
+                        </button>
+                        <a th:href="@{/profile}"
+                           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full leading-6">Profile</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

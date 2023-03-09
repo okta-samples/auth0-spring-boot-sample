@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body id="samples">
+
+<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-2">
+    <div class="relative bg-white p-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:rounded-lg">
+        <div class="mx-auto">
+            <div class="divide-y divide-gray-300/50">
+                <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
+                    <div>
+                        <img class="w-10 h-10 rounded-full" th:src="${details['picture']}" alt="Rounded avatar">
+                        <h2>My Profile</h2>
+                        <p>Hello, <span th:text="${#authentication.principal.attributes['name']}">Joe Coder</span>.
+                            Below is the information that was read with your
+                            <a href="https://developer.okta.com/docs/api/resources/oidc.html#get-user-information">Access
+                                Token</a>.
+                        </p>
+                        <p>This route is protected with the annotation <code>@PreAuthorize("hasAuthority('SCOPE_profile')")</code>,
+                            which will ensure that this page cannot be accessed until you have authenticated, and have
+                            the scope
+                            <code>profile</code>.</p>
+                    </div>
+
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Claim</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${details}">
+                            <td th:text="${item.key}">Key</td>
+                            <td th:id="${'claim-' + item.key}" th:text="${item.value}">Value</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
