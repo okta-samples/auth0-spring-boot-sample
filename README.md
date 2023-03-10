@@ -27,8 +27,10 @@ $ auth0 apps create \
 Configure the application. Update the `src/main/resources/application.properties` file with the following content:
 
 ```properties
+# trailing `/` is important for issuer URI
 okta.oauth2.issuer=YOUR_AUTH0_ORG_URI
 okta.oauth2.client-id=YOUR_AUTH0_CLIENT_ID
+okta.oauth2.audience=YOUR_AUTH0_ORG_URI/api/v2/
 ```
 
 Run 
